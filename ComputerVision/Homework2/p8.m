@@ -1,10 +1,10 @@
-% Created by Joe Ellis for Columbia University Computer Vision Course
-% Spring 2013
+% This file is created by Joe Ellis for Columbia University Computer Vision
+% Spring 2013 -- Homework #2
 
-% This function paints the lines on top of an original image from matlab
-% given it's hough_transform, and some threshold from that threshold.
+% Make lines that are on edges only, and not just going through the entire
+% image.  Do this with white lines so that they will be easily seen.
 
-function line_image_out = p7(image_in,hough_image_in, hough_thresh)
+function cutlines = p8(image_in,hough_image_in, hough_thresh)
 % scan throught the accumulator array and find the lines that have a high
 % enough value to print out lines that work on this image
 
@@ -37,3 +37,4 @@ end
 %[line_image_out, MAP] = frame2im(h);
  line_image_out = 0;           
             
+

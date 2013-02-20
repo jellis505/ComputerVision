@@ -33,9 +33,9 @@ figure(); imshow(edge_thresh_c);
 
 % This section finds the lines from the hough transform
 houghthresh = .2;
-t_h_s1 = 75;
-t_h_s2 = 75;
-t_h_c = 75;
+t_h_s1 = 150;
+t_h_s2 = 150;
+t_h_c = 150;
 
 % This section outputs the lines of the hough transform
 line_simple1 = p7(simple1,hough_s1,t_h_s1);
