@@ -19,19 +19,18 @@ diagonal = floor(sqrt(rows^2 + cols^2));
 % recover the values from the hough_image_in transform space
 p = 0:diagonal/Accum_rows:diagonal;
 theta = 0:(pi/2)/Accum_cols:pi;
+figure()
 imshow(image_in)
-
+hold on;
 for j = 1:Accum_rows
-    for i = 2:Accum_cols
+    for i = 1:Accum_cols
         if hough_image_in(j,i) > hough_thresh
             % Now we will write the code that we need to draw the lines
             % To get the proper directions let's set x = 1 and solve for y,
             % and then we can set y = 1, and solve for x.
-            x = 0;
-            y_found = floor(p(j))/cos(theta(i)+eps);
-            y = 0;
-            x_found = -floor((-p(j))/(sin(theta(i)+eps)));
-            line([x x_found],[y_found y]);
+            x = 0:1:3*rows;
+            y = ((p(j)-cos(theta(i)).*x))/sin(theta(i)+eps);
+            plot(x,y);
         end
     end
 end

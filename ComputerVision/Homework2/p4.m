@@ -15,8 +15,7 @@ metric = zeros(length(test_db),length(database_in));
 for j = 1:length(test_db)
     for i = 1:length(database_in)
         diff_round = abs(test_db(j).Roundedness - database_in(i).Roundedness);
-        diff_Emin = abs(test_db(j).Emin - database_in(i).Emin);
-        metric(j,i) = diff_round + diff_Emin;
+        metric(j,i) = diff_round;
     end
 end
 

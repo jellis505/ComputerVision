@@ -44,6 +44,6 @@ for j = 3:rows-2
 end
 %figure()
 %imagesc(edge5);
-edge_image_out = edge3;
+edge_image_out = edge5;
 
 

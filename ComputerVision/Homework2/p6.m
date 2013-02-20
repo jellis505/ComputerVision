@@ -20,28 +20,29 @@ for j = 1:rows
             end  
         end
 end
-figure(1)
+%figure(1)
 %imshow(edge_image_thresh_out);
 
 % Step 1
 % We want to quantize out parameter space
 % Start with 10 divisions in both row and theta
-divisions = 100;
-theta = -pi/2:(pi/2)/divisions:pi/2;
-p = 0:diagonal/divisions:diagonal;
+divisions_theta = 40;
+divisions_p = 40;
+theta = -pi/2:(pi/2)/divisions_theta:pi/2;
+p = 0:1:diagonal;
 
 % Step 2 Create the accumulator array
-Accumulator = zeros(divisions);
+Accumulator = zeros(divisions_p,divisions_theta);
 
 % Step 3 For each edge point in the image find if a particular p and theta
 % would pass through this edge point
-figure(2)
+
 for y = 1:rows
     for x = 1:cols
         if (edge_image_thresh_out(y,x) == 255)
-            for j = 1:divisions
-                for i = 1:divisions
-                    if abs(x*sin(theta(j))-y*cos(theta(j))+p(i)) < .1
+            for j = 1:divisions_theta
+                for i = 1:divisions_p
+                    if abs(x*sin(theta(j))-y*cos(theta(j))+p(i)) < .01
                         Accumulator(i,j) = Accumulator(i,j) + 1;
                     end
                 end
@@ -51,7 +52,7 @@ for y = 1:rows
 end
 
 % TESTING REMOVE AT SOME POINT
-Accumulator(1,:) = zeros(1,length(Accumulator(1,:)));
+%Accumulator(:,1) = zeros(divisions,1);
 
 
 % Step 4

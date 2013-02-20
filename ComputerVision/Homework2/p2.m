@@ -29,7 +29,7 @@ for j = 2:rows
         elseif (binary_in(j,i) == 255) && (binary_in(j-1,i) == 0) && (binary_in(j-1,i-1) == 0) && (binary_in(j,i-1) == 0)
             labels_out(j,i) = newlabel;
             newlabel = newlabel + 1;
-        elseif (binary_in(j,i) == 255) && (labels_out(j-1,i-1) ~= 0)
+        elseif (binary_in(j,i) == 255) && (binary_in(j-1,i-1) == 255)
             labels_out(j,i) = labels_out(j-1,i-1);
         elseif (binary_in(j,i) == 255) && (binary_in(j-1,i) == 255) && (binary_in(j-1,i-1) == 0) && (binary_in(j,i-1) == 0)
             labels_out(j,i) = labels_out(j-1,i);
@@ -54,25 +54,46 @@ end
 
 
 % Go back through the matrix to create the labels
-[equiv_row equiv_col] = size(equivalencemat);
-
 % Now we are going to go back through the labeling algorithm and every time
 % that we see a label that equal to another then we change them
-
-
-k = equiv_row;
-while k >= 2
-    finder = equivalencemat(k,2);
-    replacer = equivalencemat(k,1);
-    for j = 1:rows
-        for i = 1:cols
-            if labels_out(j,i) == finder;
-                labels_out(j,i) = replacer;
+[equiv_row equiv_col] = size(equivalencemat);
+while equiv_row > 1
+    [equiv_row equiv_col] = size(equivalencemat);
+    k = equiv_row;
+    num = 2;
+    % This section applies the names to the image
+    while k >= 2
+        finder = equivalencemat(k,2);
+        replacer = equivalencemat(k,1);
+        for j = 1:rows
+            for i = 1:cols
+                if labels_out(j,i) == finder;
+                    labels_out(j,i) = replacer;
+                end
+            end
+        end
+        k = k -1;
+    end
+    % Reset the equivalence matrix
+    equivalencemat = zeros(1,2);
+    %Check to make sure that we don't have any more cells that should be
+    %linked together
+    for j = 2:rows
+        for i = 2:cols
+            if (binary_in(j,i) == 255) && (binary_in(j-1,i) == 255) && (binary_in(j,i-1) == 255)... 
+                    && (labels_out(j-1,i) ~= labels_out(j,i-1))
+                % Smaller structure
+                smaller = min(labels_out(j-1,i),labels_out(j,i-1));
+                bigger = max(labels_out(j-1,i),labels_out(j,i-1));
+                labels_out(j,i) = smaller;
+                equivalencemat(num,1) = smaller;
+                equivalencemat(num,2) = bigger;
+                num = num +1;
             end
         end
     end
-    k = k -1;
-end  
+end
+                
 
 % Create unique labels for each element
 unique_labels = unique(labels_out);
