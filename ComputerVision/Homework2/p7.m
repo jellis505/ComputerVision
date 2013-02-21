@@ -17,20 +17,59 @@ function line_image_out = p7(image_in,hough_image_in, hough_thresh)
 diagonal = floor(sqrt(rows^2 + cols^2));
 
 % recover the values from the hough_image_in transform space
-p = -diagonal:2:diagonal;
-theta = -pi/2:(pi)/Accum_cols:pi/2;
+p = -diagonal:4:diagonal;
+theta = -pi/2:(pi)/Accum_cols:pi/2; theta = theta + 0.01*pi;
 figure()
 imshow(image_in)
 hold on;
+use_point = 1;
 for j = 1:Accum_rows
     for i = 1:Accum_cols
         if hough_image_in(j,i) > hough_thresh
-            % Now we will write the code that we need to draw the lines
-            % To get the proper directions let's set x = 1 and solve for y,
-            % and then we can set y = 1, and solve for x.
-            x = 0:1:3*rows;
-            y =((p(j)-cos(theta(i)).*x))/sin(theta(i)+eps);
-            plot(x,y);
+            % We only want to draw the line if this line is the max line in
+            % it's respective area.  Therefore we use the code below.
+            %{
+            if i == 1
+                 Get_Mat = hough_image_in(j-2:j+2,i:i+2);
+                 max_of_mat = max(max(Get_Mat));
+                 if max_of_mat == hough_image_in(j,i)
+                     use_point = 1;
+                 end
+            elseif i == 2
+                 Get_Mat = hough_image_in(j-2:j+2,i-1:i+2);
+                 max_of_mat = max(max(Get_Mat));
+                 if max_of_mat == hough_image_in(j,i)
+                     use_point = 1;
+                 end
+            elseif i == Accum_rows - 1
+                 Get_Mat = hough_image_in(j-2:j+2,i-2:i+1);
+                 max_of_mat = max(max(Get_Mat));
+                 if max_of_mat == hough_image_in(j,i)
+                     use_point = 1;
+                 end
+            elseif i == Accum_rows
+                 Get_Mat = hough_image_in(j-2:j+2,i-2:i);
+                 max_of_mat = max(max(Get_Mat));
+                 if max_of_mat == hough_image_in(j,i)
+                     use_point = 1;
+                 end
+            else
+                 Get_Mat = hough_image_in(j-2:j+2,i-2:i+2);
+                 max_of_mat = max(max(Get_Mat));
+                 if max_of_mat == hough_image_in(j,i)
+                     use_point = 1;
+                 end
+            end
+            %}
+            if use_point == 1;
+                % Now we will write the code that we need to draw the lines
+                % To get the proper directions let's set x = 1 and solve for y,
+                % and then we can set y = 1, and solve for x.
+                x = -2*rows:1:2*rows;
+                y =((p(j)-cos(theta(i)+eps).*x))/sin(theta(i)+eps);
+                plot(x,y);
+                use_point = 1;
+            end
         end
     end
 end

@@ -22,12 +22,12 @@ for j = 1:rows
 end
 %figure(1)
 %imshow(edge_image_thresh_out);
-divisions_theta = 180;
+divisions_theta = 90;
 % Step 1
 % We want to quantize out parameter space
 % Start with 10 divisions in both row and theta
 theta = -pi/2:(pi)/divisions_theta:pi/2;
-p = -diagonal:2:diagonal;
+p = -diagonal:4:diagonal;
 divisions_p = length(p);
 % Step 2 Create the accumulator array
 Accumulator = zeros(length(p),divisions_theta);
@@ -40,7 +40,7 @@ for y = 1:rows
         if (edge_image_thresh_out(y,x) == 255)
             for j = 1:divisions_theta
                 for i = 1:divisions_p
-                    if abs(x*cos(theta(j))-y*sin(theta(j))-p(i)) < 2
+                    if abs(x*cos(theta(j))-y*sin(theta(j))-p(i)) < .25
                         Accumulator(i,j) = Accumulator(i,j) + 1;
                     end
                 end
