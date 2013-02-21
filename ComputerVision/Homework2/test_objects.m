@@ -27,16 +27,15 @@ disp('Labeling the images...')
 labels2 = p2(binary2);
 labels_many1 = p2(binary_many1);
 labels_many2 = p2(binary_many2);
-figure(currentfig)
-currentfig = currentfig + 1;
-imagesc(labels2)
 
 disp('Creating the database...')
 % Create the database of the two images
 [database2, overlays_out2] = p3(labels2);
-figure(currentfig);
-currentfig = currentfig + 1;
+figure();
 imagesc(overlays_out2);
+h = getframe;
+[file1, MAP] = frame2im(h); 
+
 
 disp('Recognizing any objects we find in the other images...');
 % This function recongizes objects from the two images
@@ -44,11 +43,18 @@ overlays_many1 = p4(labels_many1,database2);
 overlays_many2 = p4(labels_many2,database2);
 
 % Output the found objects
-figure(currentfig);
-currentfig = currentfig + 1;
+figure();
 imagesc(overlays_many1);
-figure(currentfig);
-currentfig = currentfig + 1;
+h = getframe;
+[file2, MAP] = frame2im(h); 
+figure();
 imagesc(overlays_many2);
+h = getframe;
+[file3, MAP] = frame2im(h); 
+
+%Write out the image 
+imwrite(file1,'images\overlays_out2.jpg');
+imwrite(file2,'images\overlays_many1.jpg');
+imwrite(file3,'images\overlays_many2.jpg');
 
 

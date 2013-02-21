@@ -22,7 +22,6 @@ theta = -pi/2:(pi)/Accum_cols:pi/2; theta = theta + 0.01*pi;
 figure()
 imshow(image_in)
 hold on;
-use_point = 1;
 for j = 1:Accum_rows
     for i = 1:Accum_cols
         if hough_image_in(j,i) > hough_thresh
@@ -61,18 +60,16 @@ for j = 1:Accum_rows
                  end
             end
             %}
-            if use_point == 1;
                 % Now we will write the code that we need to draw the lines
                 % To get the proper directions let's set x = 1 and solve for y,
                 % and then we can set y = 1, and solve for x.
                 x = -2*rows:1:2*rows;
                 y =((p(j)-cos(theta(i)+eps).*x))/sin(theta(i)+eps);
                 plot(x,y);
-                use_point = 1;
-            end
         end
     end
 end
-%[line_image_out, MAP] = frame2im(h);
- line_image_out = 0;           
-            
+h = getframe;
+[line_image_out, MAP] = frame2im(h);           
+   
+end

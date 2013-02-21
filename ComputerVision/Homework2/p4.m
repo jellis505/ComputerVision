@@ -19,13 +19,27 @@ for j = 1:length(test_db)
     end
 end
 
+% Threshold = .003
+thresh = .03;
+
 % Find the corresponding found objects for each database_input
 for j = 1:length(database_in)
-    [c,index] = min(metric(:,j)); clear c;
-    overlays_out = DrawStuff(overlays_out,test_db(index),color);
-end
-
-imagesc(overlays_out);
-
+    
+    % Only look for the minimum "best fit" implementation
+    %{
+    [dist_obj index] = min(metric(:,j));
+    if dist_obj < thresh
+        overlays_out = DrawStuff(overlays_out,test_db(index),color);
+    end
+    %}
+    
+    % Look for all that fit reasonably well
+    index = lt(metric(:,j),thresh);
+        for i = 1:length(metric(:,j))
+            if index(i) == 1
+                overlays_out = DrawStuff(overlays_out,test_db(index),color);
+            end
+        end
+end    
 end
     

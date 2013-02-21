@@ -50,44 +50,12 @@ for y = 1:rows
 end
 
 
-% Other Implementation of the work
-%x = 0:1:cols;
-%y = 0:1:rows;
-
-
-% Step 3 Find the 
-
-% TESTING REMOVE AT SOME POINT
-%Accumulator(:,1) = zeros(divisions,1);
-
-
 % Step 4
 % Normalize the Hough Array Transform
 hough_max = max(max(Accumulator));
 normalizer = 255/hough_max;
 hough_image_out = floor(normalizer*Accumulator);
-hough_image_out = fliplr(hough_image_out);
+hough_image_out = fliplr(hough_image_out);  % This switches the orientation
+% to match that of the matlab hough transform example.
 %image(hough_image_out);
 
-
-% Code for picking out the threshold for each image
-%{
-percentages = [.25;.04;.03;.02;.01];
-maxval = max(max(edge_image_in));
-
-for k = 1:length(percentages)
-    for j = 1:rows
-        for i = 1:cols
-            thresh = maxval*percentages(k);
-            if edge_image_in(j,i) >= thresh
-                edge_image_thresh_out(j,i) = 255;
-            else
-                edge_image_thresh_out(j,i) = 0;
-            end  
-        end
-    end
-     figure(k);
-     imshow(edge_image_thresh_out);
-end
-edge_image_out = 0; hough_image_out = 0;
-%}
