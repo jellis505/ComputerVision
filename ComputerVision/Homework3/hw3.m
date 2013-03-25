@@ -41,7 +41,7 @@ match_images(graf1,graf1_x,graf1_y,graf2,graf2_x,graf2_y);
 match_images(graf1,graf1_x,graf1_y,graf3,graf3_x,graf3_y);
 match_images(leuven1,leuven1_x,leuven1_y,leuven2,leuven2_x,leuven2_y);
 match_images(leuven1,leuven1_x,leuven1_y,leuven3,leuven3_x,leuven3_y);
-match_images(wall1,wall1_x,wall1_y,wall2,wall2_x,wall2_y);
-match_images(wall1,wall1_x,wall1_y,wall3,wall3_x,wall3_y);
+match_images(wall1(1:680,1:880,1:3),wall1_x,wall1_y,wall2,wall2_x,wall2_y);
+match_images(wall1(1:680,1:880,1:3),wall1_x,wall1_y,wall3,wall3_x,wall3_y);
 
 
